@@ -6,12 +6,12 @@ import './App.css'
 const App = () => {
 
   return (
-    <div class="content_container">
+    <div id="root">
       <h1>Inspiration Board</h1>
-        <section class="boards__container">
+        <section className="boards__container">
           <section>
-            <h2>Boards</h2>
-            <ol class="boards__list">
+            <h2 className="logo">Boards</h2>
+            <ol className="boards__list">
               <li><div>Pick-me-up Quotes</div></li>
               <li><div>sailor moon</div></li>
             </ol>
