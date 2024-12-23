@@ -62,7 +62,11 @@ const App = () => {
   };
 
   const [boardsData, setBoardsData] = useState([]);
-  const [selectedBoard, setSelectedBoard] = useState(null);
+  const [selectedBoard, setSelectedBoard] = useState({
+    id: 1,
+    title: 'Pick-me-up Quotes',
+    owner: 'Sunitha',
+  });
   const [isBoardFormVisible, setIsBoardFormVisible] = useState(true);
 
   const handleBoardSubmit = (newBoard) => {
@@ -111,11 +115,45 @@ const App = () => {
           <h2>Selected Board</h2>
           <p>Select a Board from the Board List!</p>
         </section>
-        <section>
+        <section className="new-board-form__container">
           <h2>Create a New Board</h2>
           <NewBoardForm onBoardSubmit={handleBoardSubmit}/>
         </section>
       </section>
+      {selectedBoard && (
+        <section className="cards__container">
+          <section>
+            <h2>Cards For ${selectedBoard.title}</h2>
+            <div className="card-items__container">
+              <div className="card-item">
+                <p className='card-item__message'>this is a testing</p>
+                <ul className='card-item__controls'>
+                  <li>
+                    <p>3💕</p>
+                  </li>
+                  <li>
+                    <p>+1</p>
+                  </li>
+                  <li>
+                    <button>Delete</button>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </section>
+          <section className="new-card-form__container">
+            <h2>Create a New Card</h2>
+            <form className="new-card-form">
+              <label>Message</label>
+              <input type="text" className="invalid-form-input"/>
+              <p>Preview:</p>
+              <input type="submit" className="new-card-form-submit-btn"/>
+              
+            </form>
+
+        </section>
+      </section>
+      )}
     </div>
        
       </div>

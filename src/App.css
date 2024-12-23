@@ -2,7 +2,7 @@
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
-  text-align: center;
+
 }
 
 .logo {
@@ -46,7 +46,7 @@ body {
   font-family: Open Sans, sans-serif;
   margin: 3rem;
   display: block;
-  margin: 8px;
+ 
 }
 
 
@@ -72,6 +72,7 @@ h1 {
 
 div {
   display: block;
+  unicode-bidi: isolate;
 } 
 
 h2 {
@@ -100,4 +101,79 @@ section {
   max-height: 9rem;
   min-height: 9rem;
   overflow: scroll;
+}
+
+.cards__container {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+}
+
+.card-items__container {
+  grid-gap: 2rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  margin: 2rem;
+}
+
+.card-item {
+  align-items: center;
+  background-color: #fff8a5;
+  box-shadow: -10px 7px 7px #d3d3d3;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 200px;
+  padding: 2rem;
+}
+
+.card-item__message {
+  font-size: 1.4rem;
+  text-align: center;
+  word-break: break-word;
+}
+
+p {
+  display: block;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  unicode-bidi: isolate;
+}
+
+.card-items__container {
+  grid-gap: 2rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  margin: 2rem;
+}
+
+.card-item__controls {
+  display: flex;
+  font-family: Open Sans, sans-serif;
+  justify-content: space-evenly;
+  list-style-type: none;
+  padding: 0;
+  width: 100%;
+}
+
+ul {
+  display: block;
+  list-style-type: disc;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  padding-inline-start: 40px;
+  unicode-bidi: isolate;
+}
+
+li {
+  text-align: -webkit-match-parent;
+}
+
+.new-board-form__container, .new-card-form__container {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
 }
