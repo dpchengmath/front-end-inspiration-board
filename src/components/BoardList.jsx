@@ -1,39 +1,21 @@
 import PropTypes from 'prop-types';
 import Board from './Board';
-import { useState } from 'react';
 
-const BoardList = ({ boards, onClickCallback }) => {
-  const [clickedBoard, setClickedBoard] = useState(null);
-
-  const onBoardClick = (id) => {
-    const clickedBoard = boards.find((board) => board.id === id);
-    setClickedBoard(clickedBoard);
-    onClickCallback(id);
-  };
-
-  return (
-    <div>
-      <ul className='boards__list no-bullet'>
-        {boards.map((board) => (
-          <Board
-            key={board.id}
-            id={board.id}
-            title={board.title}
-            owner={board.owner}
-            onClickCallback={onBoardClick}
-          />
-        ))}
-      </ul>
-      {clickedBoard && (
+const BoardList = ({ boards, onBoardClick}) => {
+  
+  const getBoardListJSX = (boards) => {
+    return boards.map((board) => {
+      return (
+      <li key={board.id} onClick={()=>onBoardClick(board.id)}>
         <div>
-          <h2>Selected Board</h2>
-          <p>
-            {clickedBoard.title} - {clickedBoard.owner}
-          </p>
+         {board.title}
         </div>
-      )}
-    </div>
-  );
+      </li> 
+      )  
+    });
+  }
+
+  return <ol>{getBoardListJSX(boards)}</ol>;
 };
 
 BoardList.propTypes = {
@@ -44,7 +26,7 @@ BoardList.propTypes = {
       owner: PropTypes.string.isRequired,
     })
   ).isRequired,
-  onClickCallback: PropTypes.func.isRequired,
+  onBoardClick:PropTypes.func.isRequired
 };
 
 export default BoardList;

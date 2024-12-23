@@ -5,6 +5,19 @@ import NewBoardForm from './components/NewBoardForm';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
+const boardsData = [
+  {
+    id: 1,
+    title: 'Pick-me-up Quotes',
+    owner: 'Sunitha',
+  },
+  {
+    id: 2,
+    title: 'Test board',
+    owner: 'Lorraine',
+  },
+];
+
 const kbaseURL = 'http://localhost:5000';
 
 const convertFromBoardApi = (board) => {
@@ -62,12 +75,15 @@ const App = () => {
   };
 
   const [boardsData, setBoardsData] = useState([]);
-  const [selectedBoard, setSelectedBoard] = useState({
-    id: 1,
-    title: 'Pick-me-up Quotes',
-    owner: 'Sunitha',
-  });
+  const [selectedBoard, setSelectedBoard] = useState(null);
+
+  const onBoardClick = (id) => {
+    const clickedBoard = boardsData.find((board) => board.id === id);
+    setSelectedBoard(clickedBoard);
+  };
+
   const [isBoardFormVisible, setIsBoardFormVisible] = useState(true);
+
 
   const handleBoardSubmit = (newBoard) => {
     return axios.post(`${kbaseURL}/boards`, newBoard)
@@ -86,20 +102,6 @@ const App = () => {
       }); 
   };
 
-  const BOARDS = [
-    {
-      id: 1,
-      title: 'Pick-me-up Quotes',
-      owner: 'Sunitha',
-    },
-    {
-      id: 2,
-      title: 'Test board',
-      owner: 'Lorraine',
-    },
-  ];
-
-
   return (
     <div className='content_container'>
     <div id="root">
@@ -108,12 +110,17 @@ const App = () => {
         <section>
           <h2>Boards</h2>
           <ol className='boards__list'>
-            <BoardList boards={BOARDS} onClickCallback={onClickCallback} />
+            {boardsData.map(board =>{
+              return (board.title)
+                 
+              
+               })}
+            <BoardList boards={boardsData} onClickCallback={onClickCallback} onBoardClick={onBoardClick}/>
           </ol>
         </section>
         <section>
           <h2>Selected Board</h2>
-          <p>Select a Board from the Board List!</p>
+          <p>selectedBoard title - owner</p>
         </section>
         <section className="new-board-form__container">
           <h2>Create a New Board</h2>
