@@ -2,10 +2,84 @@
 import './App.css';
 import BoardList from './components/BoardList';
 import NewBoardForm from './components/NewBoardForm';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+
+const kbaseURL = 'http://localhost:5000';
+
+const convertFromBoardApi = (board) => {
+  const newBoard = {
+    ...board,
+    id:board.board_id,
+  };
+  delete newBoard.board_id;
+  return newBoard;
+};
+
+const convertFromCardApi = (card) => {
+  const newCard = {
+    ...card,
+    id: card.card_id,
+    likesCount: card.likes_count,
+    boardId: card.board_id,
+  };
+  delete newCard.card_id;
+  delete newCard.likes_count;
+  delete newCard.board_id;
+  return newCard;
+};
+
+const getAllBoardsApi = () => {
+  return axios.get(`${kbaseURL}/boards`)
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      console.error('Error fetching boards', error);
+    });
+};
+
+const getAllCardsApi = (boardId) => {
+  return axios.get(`${kbaseURL}/boards/${boardId}/cards`)
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      console.error('Error fetching cards', error);
+    });
+};
+
+const deleteCardApi = (cardId) => {
+  return axios.delete(`${kbaseURL}/cards/${cardId}`)
+    .catch((error) => {
+      console.error('Error deleting card', error);
+    });
+};
 
 const App = () => {
   const onClickCallback = (id) => {
     console.log(`Board with id ${id} clicked`);
+  };
+
+  const [boardsData, setBoardsData] = useState([]);
+  const [selectedBoard, setSelectedBoard] = useState(null);
+  const [isBoardFormVisible, setIsBoardFormVisible] = useState(true);
+
+  const handleBoardSubmit = (newBoard) => {
+    return axios.post(`${kbaseURL}/boards`, newBoard)
+      .then((response) => { 
+        setBoardsData([...boardsData, convertFromBoardApi(response.data)]);
+      })
+      .catch((error) => {
+        console.error('Error creating board', error);
+      });
+  };
+
+  const getAllBoards =() => {
+    getAllBoardsApi()
+      .then((data) => {
+        setBoardsData(data.map(convertFromBoardApi));
+      }); 
   };
 
   const BOARDS = [
@@ -20,6 +94,7 @@ const App = () => {
       owner: 'Lorraine',
     },
   ];
+
 
   return (
     <div className='content_container'>
@@ -38,7 +113,7 @@ const App = () => {
         </section>
         <section>
           <h2>Create a New Board</h2>
-          <NewBoardForm />
+          <NewBoardForm onBoardSubmit={handleBoardSubmit}/>
         </section>
       </section>
     </div>
@@ -46,4 +121,5 @@ const App = () => {
       </div>
   );
 };
+
 export default App;

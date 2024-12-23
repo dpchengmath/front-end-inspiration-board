@@ -2,7 +2,7 @@ import {useState} from 'react';
 import PropTypes from 'prop-types';
 import './NewBoardForm.css';
 
-const NewBoardForm = () => {
+const NewBoardForm = ({handleBoardSubmit}) => {
 
   return (
     <section >
@@ -34,7 +34,7 @@ const NewBoardForm = () => {
           // disabled={!title || !owner}
         />
       </form>
-      <span class="new-board-form__toggle-btn">Hide New Board Form</span>
+      <span className="new-board-form__toggle-btn">Hide New Board Form</span>
     </section>
   );
 }
