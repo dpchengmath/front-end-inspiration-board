@@ -1,24 +1,32 @@
 import PropTypes from 'prop-types';
 
-const Board = ({ id, title, owner, onBoardClick}) => {
-  // const onBoardClick = () => {
-  //   onClickCallback(id);
-  // };
 
-  return (
-    <li className='boards__item'>
-      <p className='boards__item' onClick={onBoardClick}>
-        {title}
-      </p>
-    </li>
-  );
+const Board = ({ boards, onBoardClick}) => {
+
+  const getBoardListJSX = (boards) => {
+    return boards.map((board) => {
+      return (
+      <li key={board.id} onClick={()=>onBoardClick(board.id)}>
+        <div>
+         {board.title}
+        </div>
+      </li>
+      )
+    });
+  }
+
+  return <ol>{getBoardListJSX(boards)}</ol>;
 };
 
 Board.propTypes = {
-  id: PropTypes.number.isRequired,
-  title: PropTypes.string.isRequired,
-  owner: PropTypes.string.isRequired,
-  onClickCallback: PropTypes.func.isRequired,
+  boards: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      title: PropTypes.string.isRequired,
+      owner: PropTypes.string.isRequired,
+    })
+  ).isRequired,
+  onBoardClick:PropTypes.func.isRequired
 };
 
 export default Board;
