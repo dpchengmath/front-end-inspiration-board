@@ -1,6 +1,6 @@
 
 import './App.css';
-import BoardList from './components/Board';
+import CardList from './components/CardList';
 import NewBoardForm from './components/NewBoardForm';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
@@ -16,6 +16,12 @@ const boardsData = [
     id: 2,
     title: 'Test board',
     owner: 'Lorraine',
+  },
+];
+
+const cardsData = [
+  {
+
   },
 ];
 
@@ -129,22 +135,7 @@ const App = () => {
         <section className="cards__container">
           <section>
             <h2>Cards For {selectedBoard.title}</h2>
-            <div className="card-items__container">
-              <div className="card-item">
-                <p className='card-item__message'>this is a testing</p>
-                <ul className='card-item__controls'>
-                  <li>
-                    <p>3💕</p>
-                  </li>
-                  <li>
-                    <p>+1</p>
-                  </li>
-                  <li>
-                    <button>Delete</button>
-                  </li>
-                </ul>
-              </div>
-            </div>
+            <CardList cards={cardsData} onLikeCardClick={onLikeCardClick} onDeleteCard={onDeleteCard}/>
           </section>
           <section className="new-card-form__container">
             <h2>Create a New Card</h2>
