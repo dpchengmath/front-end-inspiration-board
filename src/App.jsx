@@ -1,6 +1,6 @@
 
 import './App.css';
-import CardList from './components/CardList';
+import BoardList from './components/Board';
 import NewBoardForm from './components/NewBoardForm';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
@@ -18,22 +18,6 @@ const boardsData = [
     owner: 'Lorraine',
   },
 ];
-
-const cardsData = [
-  {
-    id: 1,
-    message: 'Enjoy your books',
-    likesCount: 0,
-    boardId: 1,
-  },
-  {
-    id: 2,
-    message: 'Go out for a walk',
-    likesCount: 0,
-    boardId: 1,
-  },
-];
-
 
 // const kbaseURL = 'http://localhost:5000';
 
@@ -80,56 +64,29 @@ const cardsData = [
 //     });
 // };
 
-const deleteCardApi = (cardId) => {
-  return axios.delete(`${kbaseURL}/cards/${cardId}`)
-    .catch((error) => {
-      console.error('Error deleting card', error);
-    });
-};
-
-const likeCardApi = (cardId) => {
-  return axios.put(`${kbaseURL}/cards/${cardId}/liked`)
-  .catch((error) => {
-    console.error('Error liking card', error);
-  });
-}
+// const deleteCardApi = (cardId) => {
+//   return axios.delete(`${kbaseURL}/cards/${cardId}`)
+//     .catch((error) => {
+//       console.error('Error deleting card', error);
+//     });
+// };
 
 const App = () => {
 
   // const [boardsData, setBoardsData] = useState([]);
-  // const [cardsData, setCardsData] = useState([]);
   const [selectedBoard, setSelectedBoard] = useState(null);
-  // const [isBoardFormVisible, setIsBoardFormVisible] = useState(true);
 
-  const onBoardClick = (BoardId) => {
-    console.log(`Board with id ${BoardId} clicked`);
 
-    const clickedBoard = boardsData.find((board) => board.id === BoardId);
+  const onBoardClick = (id) => {
+    console.log(`Board with id ${id} clicked`);
+
+    const clickedBoard = boardsData.find((board) => board.id === id);
     setSelectedBoard(clickedBoard);
   };
 
-  const likeCard = (cardId) => {
-    const card = cardsData.find(card => card.id === cardId);
-    likeCardApi(cardId)
-      .then(()=> {
-        setCardsData((cardsData) => cardsData.map(card => {
-          if (card.id === cardId) {
-            return {...card, likesCount: card.likesCount + 1};
-          }else {
-            return card;
-          }
-        }));
-    });
-  };
+//   const [isBoardFormVisible, setIsBoardFormVisible] = useState(true);
 
-  const deleteCard = (cardId) => {
-    deleteCardApi(cardId)
-      .then(() => {
-        setCardsData((cardsData) => cardsData.filter(card => card.id !== cardId));
-        return tasksData;
-      });
-  };
- 
+
 //   const handleBoardSubmit = (newBoard) => {
 //     return axios.post(`${kbaseURL}/boards`, newBoard)
 //       .then((response) => {
@@ -146,10 +103,6 @@ const App = () => {
 //         setBoardsData(data.map(convertFromBoardApi));
 //       });
 //   };
-
-// useEffect(() => {
-//   getAllBoards();
-// },[]);
 
   return (
     <div className='content_container'>
@@ -169,6 +122,7 @@ const App = () => {
         </section>
         <section className="new-board-form__container">
           <h2>Create a New Board</h2>
+          <NewBoardForm/>
 
         </section>
       </section>
@@ -176,7 +130,22 @@ const App = () => {
         <section className="cards__container">
           <section>
             <h2>Cards For {selectedBoard.title}</h2>
-            <CardList cards={cardsData} onLikeCardClick={likeCard} onDeleteCard={deleteCard}/>
+            <div className="card-items__container">
+              <div className="card-item">
+                <p className='card-item__message'>this is a testing</p>
+                <ul className='card-item__controls'>
+                  <li>
+                    <p>3💕</p>
+                  </li>
+                  <li>
+                    <p>+1</p>
+                  </li>
+                  <li>
+                    <button>Delete</button>
+                  </li>
+                </ul>
+              </div>
+            </div>
           </section>
           <section className="new-card-form__container">
             <h2>Create a New Card</h2>
@@ -185,9 +154,7 @@ const App = () => {
               <input type="text" className="invalid-form-input"/>
               <p>Preview:</p>
               <input type="submit" className="new-card-form-submit-btn"/>
-
             </form>
-
         </section>
       </section>
       )}

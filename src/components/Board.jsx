@@ -14,7 +14,6 @@ const Board = ({ boards, onBoardClick}) => {
       )
     });
   }
-
   return <ol>{getBoardListJSX(boards)}</ol>;
 };
 

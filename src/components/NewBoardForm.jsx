@@ -4,39 +4,56 @@ import './NewBoardForm.css';
 
 const NewBoardForm = ({handleBoardSubmit}) => {
 
-  return (
-    <section >
-      <form className="new-board-form__form" >
-        <div>
-          <label>Title</label> 
-        </div>
-        <div>
-          <input
-            type="text"
-            // value={title}
-            // onChange={onTitleChange}
-          />
-        </div>
-        <div>
-          <label>Owner's Name</label>  
-        </div>
-        <div>
-          <input
-            type="text"
-            // value={owner}
-            // onChange={onOwnerChange}
-          />
-        </div>
+  const kDefaultFormState = {
+    title: '',
+    owner: '',
+  };
 
-        <p>Preview:    </p>
+  const [formData, setFormData] = useState(kDefaultFormState);
+
+  const handleChange = (event) => {
+    const fieldName = event.target.name;
+    const fieldValue = event.target.value;
+
+    const newFormData = { ...formData, [fieldName]: fieldValue };
+    setFormData(newFormData);
+  };
+
+  const onHandleSubmit = (event) => {
+    event.preventDefault();
+    handleBoardSubmit(formData);
+    setFormData(kDefaultFormState);
+  };
+
+  return (
+    <form onSubmit={onHandleSubmit}>
+      <div>
+        <label htmlFor='title'>Title: </label>
         <input
-          type="submit"
-          // disabled={!title || !owner}
+          type='text'
+          id='title'
+          name='title'
+          value={formData.title}
+          onChange={handleChange}
         />
-      </form>
-      <span className="new-board-form__toggle-btn">Hide New Board Form</span>
-    </section>
+      </div>
+      <div>
+        <label htmlFor='owner'>Owner's Name: </label>
+        <input
+          type='text'
+          id='owner'
+          name='owner'
+          value={formData.owner}
+          onChange={handleChange}
+        />
+      </div>
+      <p>Preview: </p>
+      <div>
+        <input type='submit' value='Submit' />
+      </div>
+    </form>
   );
-}
+};
+
 
 export default NewBoardForm;
