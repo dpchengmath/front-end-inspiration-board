@@ -24,7 +24,7 @@ const Card = ({id, message, onLikeCardClick, onDeleteCard}) => {
                   <span>{likesCount} 💕</span>
                   </li>
                   <li>
-                    <p>+onClick={handleLikeClick}+1</p>
+                    <button onClick={handleLikeClick}>+1</button>
                   </li>
                   <li>
                     <button onClick={deleteCardClick}>Delete</button>

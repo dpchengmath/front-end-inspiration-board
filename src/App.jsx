@@ -111,24 +111,19 @@ const addCard = (newCard) => {
   const newCardWithId = { ...newCard, id: cardsData.length + 1 };
   setCardsData([...cardsData, newCardWithId]);
 };
-const getCardsForSelectedBoard = () => {
-  return cardsData.filter(card => card.boardId === selectedBoard?.id);
-};
+  const getCardsForSelectedBoard = () => {
+    return cardsData.filter(card => card.boardId === selectedBoard?.id);
+  };
 
-return (
-  <div className='content_container'>
+  return (
+    <div className='content_container'>
     <div id="root">
       <h1>Inspiration Board</h1>
       <section className='boards__container'>
         <section>
           <h2>Boards</h2>
-          <ol className='boards__list'>
-            {boardsData.map(board => (
-              <li key={board.id} onClick={() => onBoardClick(board.id)}>
-                {board.title}
-              </li>
-            ))}
-          </ol>
+          <Board boards = {boardsData} onBoardClick={onBoardClick}/>
+
         </section>
         <section>
           <h2>Selected Board</h2>
