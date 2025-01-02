@@ -1,8 +1,15 @@
 import PropTypes from 'prop-types';
-
+import { useState } from 'react';
 import './Card.css';
 
 const Card = ({id, message, onLikeCardClick, onDeleteCard}) => {
+  const [likesCount, setLikesCount] = useState(0);
+  const handleLikeClick = () => {
+    setLikesCount(likesCount + 1);
+    if (onLikeCardClick) {
+      onLikeCardClick(id);
+    }
+  };
 
   const deleteCardClick = () => {
     onDeleteCard(id);
@@ -11,13 +18,13 @@ const Card = ({id, message, onLikeCardClick, onDeleteCard}) => {
   return (
     <div className="card-items__container">
               <div className="card-item">
-                <p className='card-item__message'>this is a testing</p>
+                <p className='card-item__message'>{message}</p>
                 <ul className='card-item__controls'>
                   <li>
-                    <p>3💕</p>
+                  <span>{likesCount} 💕</span>
                   </li>
                   <li>
-                    <p>+1</p>
+                    <p>+onClick={handleLikeClick}+1</p>
                   </li>
                   <li>
                     <button onClick={deleteCardClick}>Delete</button>

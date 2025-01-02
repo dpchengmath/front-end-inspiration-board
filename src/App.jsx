@@ -4,6 +4,8 @@ import NewBoardForm from './components/NewBoardForm';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import Board from './components/Board';
+import NewCardForm from './components/NewCardForm'
+import CardList from './components/CardList';
 
 
 // const kbaseURL = 'http://localhost:5000';
@@ -73,6 +75,7 @@ const App = () => {
     owner: 'Lorraine',
   }]);
   const [selectedBoard, setSelectedBoard] = useState(null);
+  const [cardsData, setCardsData] = useState([]);
 
 
   const onBoardClick = (id) => {
@@ -104,15 +107,28 @@ const addBoard = (newBoard) => {
   setBoardsData([...boardsData, newBoardWithId]);
 };
 
-  return (
-    <div className='content_container'>
+const addCard = (newCard) => {
+  const newCardWithId = { ...newCard, id: cardsData.length + 1 };
+  setCardsData([...cardsData, newCardWithId]);
+};
+const getCardsForSelectedBoard = () => {
+  return cardsData.filter(card => card.boardId === selectedBoard?.id);
+};
+
+return (
+  <div className='content_container'>
     <div id="root">
       <h1>Inspiration Board</h1>
       <section className='boards__container'>
         <section>
           <h2>Boards</h2>
-          <Board boards = {boardsData} onBoardClick={onBoardClick}/>
-
+          <ol className='boards__list'>
+            {boardsData.map(board => (
+              <li key={board.id} onClick={() => onBoardClick(board.id)}>
+                {board.title}
+              </li>
+            ))}
+          </ol>
         </section>
         <section>
           <h2>Selected Board</h2>
@@ -120,48 +136,28 @@ const addBoard = (newBoard) => {
             <p>{selectedBoard.title} - {selectedBoard.owner}</p>
           )}
         </section>
+        {selectedBoard && (
+          <section className="cards__container">
+            <h2>Cards For {selectedBoard.title}</h2>
+            <CardList cards={getCardsForSelectedBoard()} />
+          </section>
+        )}
         <section className="new-board-form__container">
           <h2>Create a New Board</h2>
           <NewBoardForm addBoardCallback={addBoard} />
-
         </section>
-      </section>
-      {selectedBoard && (
-        <section className="cards__container">
-          <section>
-            <h2>Cards For {selectedBoard.title}</h2>
-            <div className="card-items__container">
-              <div className="card-item">
-                <p className='card-item__message'>this is a testing</p>
-                <ul className='card-item__controls'>
-                  <li>
-                    <p>3💕</p>
-                  </li>
-                  <li>
-                    <p>+1</p>
-                  </li>
-                  <li>
-                    <button>Delete</button>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </section>
+        {selectedBoard && (
           <section className="new-card-form__container">
             <h2>Create a New Card</h2>
-            <form className="new-card-form">
-              <label>Message</label>
-              <input type="text" className="invalid-form-input"/>
-              <p>Preview:</p>
-              <input type="submit" className="new-card-form-submit-btn"/>
-            </form>
-        </section>
-      </section>
-      )}
-    </div>
+            <NewCardForm addCardCallback={addCard} />
+          </section>
+        )}
 
-      </div>
-  );
+      </section>
+    </div>
+  </div>
+);
+
 };
 
 export default App;
