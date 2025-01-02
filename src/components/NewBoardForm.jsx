@@ -1,8 +1,8 @@
-import {useState} from 'react';
+import  { useState } from 'react';
 import PropTypes from 'prop-types';
 import './NewBoardForm.css';
 
-const NewBoardForm = ({handleBoardSubmit}) => {
+const NewBoardForm = ({ addBoardCallback }) => {
 
   const kDefaultFormState = {
     title: '',
@@ -10,50 +10,65 @@ const NewBoardForm = ({handleBoardSubmit}) => {
   };
 
   const [formData, setFormData] = useState(kDefaultFormState);
+  const [isFormVisible, setIsFormVisible] = useState(true);
 
   const handleChange = (event) => {
-    const fieldName = event.target.name;
-    const fieldValue = event.target.value;
-
-    const newFormData = { ...formData, [fieldName]: fieldValue };
+    const { name, value } = event.target;
+    const newFormData = { ...formData, [name]: value };
     setFormData(newFormData);
   };
 
   const onHandleSubmit = (event) => {
     event.preventDefault();
-    handleBoardSubmit(formData);
+    addBoardCallback(formData);
     setFormData(kDefaultFormState);
   };
 
+  const toggleFormVisibility = () => {
+    setIsFormVisible(!isFormVisible);
+  };
+
   return (
-    <form onSubmit={onHandleSubmit}>
-      <div>
-        <label htmlFor='title'>Title: </label>
-        <input
-          type='text'
-          id='title'
-          name='title'
-          value={formData.title}
-          onChange={handleChange}
-        />
-      </div>
-      <div>
-        <label htmlFor='owner'>Owner's Name: </label>
-        <input
-          type='text'
-          id='owner'
-          name='owner'
-          value={formData.owner}
-          onChange={handleChange}
-        />
-      </div>
-      <p>Preview: </p>
-      <div>
-        <input type='submit' value='Submit' />
-      </div>
-    </form>
+    <div>
+      {isFormVisible ? (
+        <form onSubmit={onHandleSubmit}>
+          <div>
+            <label htmlFor='title'>Title: </label>
+            <input
+              type='text'
+              id='title'
+              name='title'
+              value={formData.title}
+              onChange={handleChange}
+            />
+          </div>
+          <div>
+            <label htmlFor='owner'>Owner: </label>
+            <input
+              type='text'
+              id='owner'
+              name='owner'
+              value={formData.owner}
+              onChange={handleChange}
+            />
+          </div>
+          <p>Preview: {formData.title} - {formData.owner}</p>
+          <div>
+            <input type='submit' value='Submit' />
+          </div>
+          <div>
+            <button type="button" onClick={toggleFormVisibility}>Hide New Board Form</button>
+          </div>
+        </form>
+      ) : (
+        <button onClick={toggleFormVisibility}>Show New Board Form</button>
+      )}
+    </div>
   );
 };
 
+NewBoardForm.propTypes = {
+  addBoardCallback: PropTypes.func.isRequired,
+};
 
 export default NewBoardForm;

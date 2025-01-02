@@ -1,23 +1,10 @@
 
 import './App.css';
-import BoardList from './components/Board';
 import NewBoardForm from './components/NewBoardForm';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import Board from './components/Board';
 
-const boardsData = [
-  {
-    id: 1,
-    title: 'Pick-me-up Quotes',
-    owner: 'Sunitha',
-  },
-  {
-    id: 2,
-    title: 'Test board',
-    owner: 'Lorraine',
-  },
-];
 
 // const kbaseURL = 'http://localhost:5000';
 
@@ -30,6 +17,8 @@ const boardsData = [
 //   delete newBoard.board_id;
 //   return newBoard;
 // };
+
+
 
 // const convertFromCardApi = (card) => {
 //   const newCard = {
@@ -73,13 +62,20 @@ const boardsData = [
 
 const App = () => {
 
-  // const [boardsData, setBoardsData] = useState([]);
+  const [boardsData, setBoardsData] = useState([{
+    id: 1,
+    title: 'Pick-me-up Quotes',
+    owner: 'Sunitha',
+  },
+  {
+    id: 2,
+    title: 'Test board',
+    owner: 'Lorraine',
+  }]);
   const [selectedBoard, setSelectedBoard] = useState(null);
 
 
   const onBoardClick = (id) => {
-    console.log(`Board with id ${id} clicked`);
-
     const clickedBoard = boardsData.find((board) => board.id === id);
     setSelectedBoard(clickedBoard);
   };
@@ -103,6 +99,10 @@ const App = () => {
 //         setBoardsData(data.map(convertFromBoardApi));
 //       });
 //   };
+const addBoard = (newBoard) => {
+  const newBoardWithId = { ...newBoard, id: boardsData.length + 1 };
+  setBoardsData([...boardsData, newBoardWithId]);
+};
 
   return (
     <div className='content_container'>
@@ -122,7 +122,7 @@ const App = () => {
         </section>
         <section className="new-board-form__container">
           <h2>Create a New Board</h2>
-          <NewBoardForm/>
+          <NewBoardForm addBoardCallback={addBoard} />
 
         </section>
       </section>
