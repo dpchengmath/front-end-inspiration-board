@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 
-const NewBoardForm = ({ addCardCallback }) => {
+const NewCardForm = ({ addCardCallback }) => {
   const kDefaultFormState = {
     message: '',
   };
@@ -43,8 +43,8 @@ const NewBoardForm = ({ addCardCallback }) => {
   );
 }
 
-NewBoardForm.propTypes = {
+NewCardForm.propTypes = {
   addCardCallback: PropTypes.func.isRequired,
 };
 
-export default NewBoardForm;
+export default NewCardForm;

@@ -2,7 +2,7 @@
 import './App.css';
 import NewBoardForm from './components/NewBoardForm';
 import { useEffect, useState } from 'react';
-import axios from 'axios';
+// import axios from 'axios';
 import Board from './components/Board';
 import NewCardForm from './components/NewCardForm'
 import CardList from './components/CardList';
@@ -108,11 +108,20 @@ const addBoard = (newBoard) => {
 };
 
 const addCard = (newCard) => {
-  const newCardWithId = { ...newCard, id: cardsData.length + 1 };
-  setCardsData([...cardsData, newCardWithId]);
+  if (selectedBoard) {
+    const newCardWithId = { ...newCard, id: cardsData.length + 1, boardId: selectedBoard.id };
+    setCardsData([...cardsData, newCardWithId]);
+  }
 };
   const getCardsForSelectedBoard = () => {
     return cardsData.filter(card => card.boardId === selectedBoard?.id);
+  };
+  const handleLikeCardClick = (id) => {
+    // Handle like card click if needed
+  };
+
+  const handleDeleteCard = (id) => {
+    setCardsData(cardsData.filter(card => card.id !== id));
   };
 
   return (
@@ -134,7 +143,9 @@ const addCard = (newCard) => {
         {selectedBoard && (
           <section className="cards__container">
             <h2>Cards For {selectedBoard.title}</h2>
-            <CardList cards={getCardsForSelectedBoard()} />
+            <CardList cards={getCardsForSelectedBoard()}
+            onLikeCardClick={handleLikeCardClick}
+            onDeleteCard={handleDeleteCard} />
           </section>
         )}
         <section className="new-board-form__container">
@@ -147,6 +158,7 @@ const addCard = (newCard) => {
             <NewCardForm addCardCallback={addCard} />
           </section>
         )}
+
 
       </section>
     </div>
