@@ -16,7 +16,7 @@ const Card = ({id, message, onLikeCardClick, onDeleteCard}) => {
   };
 
   return (
-    <div className="card-items__container">
+    <div className="card-items">
               <div className="card-item">
                 <p className='card-item__message'>{message}</p>
                 <ul className='card-item__controls'>

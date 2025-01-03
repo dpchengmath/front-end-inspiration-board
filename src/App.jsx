@@ -125,14 +125,14 @@ const addCard = (newCard) => {
   };
 
   return (
-    <div className='content_container'>
     <div id="root">
+      <div className='page__container'>
+        <div className='content_container'>
       <h1>Inspiration Board</h1>
       <section className='boards__container'>
         <section>
           <h2>Boards</h2>
           <Board boards = {boardsData} onBoardClick={onBoardClick}/>
-
         </section>
         <section>
           <h2>Selected Board</h2>
@@ -140,27 +140,26 @@ const addCard = (newCard) => {
             <p>{selectedBoard.title} - {selectedBoard.owner}</p>
           )}
         </section>
-        {selectedBoard && (
-          <section className="cards__container">
+        <section className="new-board-form__container">
+          <h2>Create a New Board</h2>
+          <NewBoardForm addBoardCallback={addBoard} />
+        </section>
+      </section>
+      {selectedBoard && (
+        <section className="cards__container">
+          <section>
             <h2>Cards For {selectedBoard.title}</h2>
             <CardList cards={getCardsForSelectedBoard()}
             onLikeCardClick={handleLikeCardClick}
             onDeleteCard={handleDeleteCard} />
           </section>
-        )}
-        <section className="new-board-form__container">
-          <h2>Create a New Board</h2>
-          <NewBoardForm addBoardCallback={addBoard} />
-        </section>
-        {selectedBoard && (
           <section className="new-card-form__container">
             <h2>Create a New Card</h2>
             <NewCardForm addCardCallback={addCard} />
           </section>
-        )}
-
-
-      </section>
+        </section>
+      )}
+      </div>
     </div>
   </div>
 );

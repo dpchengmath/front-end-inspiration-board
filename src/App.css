@@ -42,14 +42,17 @@
 }
 
 body {
-  background-color: hsl(0, 7%, 95%);
+
   color: #000;
   font-family: Open Sans, sans-serif;
   margin: 3rem;
-  display: block;
-
 }
 
+.page__container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
 
 h1 {
   font-size: 2em;
@@ -107,13 +110,6 @@ section {
 .cards__container {
   display: grid;
   grid-template-columns: 2fr 1fr;
-}
-
-.card-items__container {
-  grid-gap: 2rem;
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  margin: 2rem;
 }
 
 .card-item {

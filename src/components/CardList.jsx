@@ -16,7 +16,7 @@ const CardList = ({ cards, onLikeCardClick, onDeleteCard}) => {
       );
     });
   };
-  return <ul className="cards__list no-bullet">{getCardListJSX(cards)}</ul>;
+  return <div className="card-items__container">{getCardListJSX(cards)}</div>;
 };
 
 CardList.propTypes = {
