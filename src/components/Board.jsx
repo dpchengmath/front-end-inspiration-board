@@ -7,17 +7,15 @@ const Board = ({ boards, onBoardClick}) => {
     return boards.map((board) => {
       return (
       <li key={board.id} onClick={()=>onBoardClick(board.id)}>
-        <div>
-         {board.title}
-        </div>
+          <div>{board.title}</div>
       </li>
       )
     });
   }
-  return <ol>{getBoardListJSX(boards)}</ol>;
+  return <ol className='boards__list' >{getBoardListJSX(boards)}</ol>;
 };
 
-Board.propTypes = {
+Board.propTypes =  {
   boards: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number.isRequired,
