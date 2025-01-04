@@ -6,21 +6,28 @@ import { useEffect, useState } from 'react';
 import Board from './components/Board';
 import NewCardForm from './components/NewCardForm'
 import CardList from './components/CardList';
+import axios from 'axios';
 
+const kbaseURL = 'http://localhost:5000';
 
-// const kbaseURL = 'http://localhost:5000';
+const getAllBoardsApi = () => {
+  return axios.get(`${kbaseURL}/boards`)
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      console.error('Error fetching boards', error);
+    });
+};
 
-
-// const convertFromBoardApi = (board) => {
-//   const newBoard = {
-//     ...board,
-//     id:board.board_id,
-//   };
-//   delete newBoard.board_id;
-//   return newBoard;
-// };
-
-
+const convertFromBoardApi = (board) => {
+  const newBoard = {
+    ...board,
+    id:board.board_id,
+  };
+  delete newBoard.board_id;
+  return newBoard;
+};
 
 // const convertFromCardApi = (card) => {
 //   const newCard = {
@@ -33,16 +40,6 @@ import CardList from './components/CardList';
 //   delete newCard.likes_count;
 //   delete newCard.board_id;
 //   return newCard;
-// };
-
-// const getAllBoardsApi = () => {
-//   return axios.get(`${kbaseURL}/boards`)
-//     .then((response) => {
-//       return response.data;
-//     })
-//     .catch((error) => {
-//       console.error('Error fetching boards', error);
-//     });
 // };
 
 // const getAllCardsApi = (boardId) => {
@@ -64,19 +61,31 @@ import CardList from './components/CardList';
 
 const App = () => {
 
-  const [boardsData, setBoardsData] = useState([{
-    id: 1,
-    title: 'Pick-me-up Quotes',
-    owner: 'Sunitha',
-  },
-  {
-    id: 2,
-    title: 'Test board',
-    owner: 'Lorraine',
-  }]);
+  // const [boardsData, setBoardsData] = useState([{
+  //   id: 1,
+  //   title: 'Pick-me-up Quotes',
+  //   owner: 'Sunitha',
+  // },
+  // {
+  //   id: 2,
+  //   title: 'Test board',
+  //   owner: 'Lorraine',
+  // }]);
+
+  const [boardsData, setBoardsData] = useState([]);
   const [selectedBoard, setSelectedBoard] = useState(null);
   const [cardsData, setCardsData] = useState([]);
 
+  const getAllBoards =() => {
+    getAllBoardsApi()
+      .then((data) => {
+        setBoardsData(data['boards'].map(convertFromBoardApi));
+      });
+  };
+  
+  useEffect(() => { 
+    getAllBoards(); 
+  }, []);
 
   const onBoardClick = (id) => {
     const clickedBoard = boardsData.find((board) => board.id === id);
@@ -96,12 +105,7 @@ const App = () => {
 //       });
 //   };
 
-//   const getAllBoards =() => {
-//     getAllBoardsApi()
-//       .then((data) => {
-//         setBoardsData(data.map(convertFromBoardApi));
-//       });
-//   };
+
 const addBoard = (newBoard) => {
   const newBoardWithId = { ...newBoard, id: boardsData.length + 1 };
   setBoardsData([...boardsData, newBoardWithId]);
