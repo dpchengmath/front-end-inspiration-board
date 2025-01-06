@@ -81,7 +81,7 @@ const App = () => {
 
   useEffect(() => {
     getAllBoards();
-  }, [boardsData]);
+  }, []);
 
   useEffect(() => {
     if (selectedBoard?.id) {
@@ -89,7 +89,7 @@ const App = () => {
     } else {
       setCardsData([]);
     }
-  }, [selectedBoard, cardsData]);
+  }, [selectedBoard]);
 
   const onBoardClick = (id) => {
     const clickedBoard = boardsData.find((board) => board.id === id);
