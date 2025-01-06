@@ -129,9 +129,17 @@ const App = () => {
 //     }
 //   };
 
-  const handleLikeCardClick = (id) => {
-    // Handle like card click if needed
-  };
+const handleLikeCardClick = (id) => {
+  return axios.put(`${kbaseURL}/cards/${id}/liked`)
+    .then((response) => {
+      const updatedCard = convertFromCardApi(response.data);
+      setCardsData((prevCards) => prevCards.map(card => card.id === id ? updatedCard : card));
+    })
+    .catch((error) => {
+      console.error('Error liking card', error);
+    });
+};
+
 
   const handleDeleteCard = (id) => {
     setCardsData(cardsData.filter(card => card.id !== id));
