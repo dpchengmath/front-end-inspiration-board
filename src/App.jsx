@@ -2,7 +2,6 @@
 import './App.css';
 import NewBoardForm from './components/NewBoardForm';
 import { useEffect, useState } from 'react';
-// import axios from 'axios';
 import Board from './components/Board';
 import NewCardForm from './components/NewCardForm'
 import CardList from './components/CardList';
@@ -123,65 +122,81 @@ const App = () => {
 //   setBoardsData([...boardsData, newBoardWithId]);
 // };
 
-  // const addCard = (newCard) => {
-  //   if (selectedBoard) {
-  //     const newCardWithId = { ...newCard, id: cardsData.length + 1, boardId: selectedBoard.id };
-  //     setCardsData([...cardsData, newCardWithId]);
-  //   }
-  // };
+//   const addCard = (newCard) => {
+//     if (selectedBoard) {
+//       const newCardWithId = { ...newCard, id: cardsData.length + 1, boardId: selectedBoard.id };
+//       setCardsData([...cardsData, newCardWithId]);
+//     }
+//   };
 
   const handleLikeCardClick = (id) => {
     // Handle like card click if needed
   };
 
   const handleDeleteCard = (id) => {
-    deleteCardApi(id)
+    setCardsData(cardsData.filter(card => card.id !== id));
+  };
+  const handleDeleteAll = () => {
+    return axios.delete(`${kbaseURL}/boards`)
       .then(() => {
-        setCardsData((cardsData)=>cardsData.filter((card) => card.id !== id));
-        return cardsData;
+        setBoardsData([]);
+        setCardsData([]);
+        setSelectedBoard(null);
+      })
+      .catch((error) => {
+        console.error('Error deleting all boards and cards', error);
       });
   };
 
+
   return (
-    <div id="root">
-      <div className='page__container'>
-        <div className='content_container'>
-      <h1>Inspiration Board</h1>
-      <section className='boards__container'>
-        <section>
-          <h2>Boards</h2>
-          <Board boards = {boardsData} onBoardClick={onBoardClick}/>
-        </section>
-        <section>
-          <h2>Selected Board</h2>
+    <div className='content_container'>
+      <div id="root">
+        <h1>Inspiration Board</h1>
+        <section className='boards__container'>
+          <section>
+            <h2>Boards</h2>
+            <ol className='boards__list'>
+              {boardsData.map(board => (
+                <li key={board.id} onClick={() => onBoardClick(board.id)}>
+                  {board.title}
+                </li>
+              ))}
+            </ol>
+          </section>
+          <section>
+            <h2>Selected Board</h2>
+            {selectedBoard && (
+              <p>{selectedBoard.title} - {selectedBoard.owner}</p>
+            )}
+          </section>
+          <section className="new-board-form__container">
+            <h2>Create a New Board</h2>
+            <NewBoardForm addBoardCallback={handleBoardSubmit} />
+          </section>
           {selectedBoard && (
-            <p>{selectedBoard.title} - {selectedBoard.owner}</p>
+            <section className="cards__container">
+              <section>
+                <h2>Cards For {selectedBoard.title}</h2>
+                <CardList
+                  cards={cardsData}
+                  onLikeCardClick={handleLikeCardClick}
+                  onDeleteCard={handleDeleteCard}
+                />
+              </section>
+              <section className="new-card-form__container">
+                <h2>Create a New Card</h2>
+                <NewCardForm addCardCallback={handleCardSubmit} />
+              </section>
+            </section>
           )}
         </section>
-        <section className="new-board-form__container">
-          <h2>Create a New Board</h2>
-          <NewBoardForm addBoardCallback={handleBoardSubmit} />
-        </section>
-      </section>
-      {selectedBoard && (
-        <section className="cards__container">
-          <section>
-            <h2>Cards For {selectedBoard.title}</h2>
-            <CardList cards={cardsData}
-            onLikeCardClick={handleLikeCardClick}
-            onDeleteCard={handleDeleteCard} />
-          </section>
-          <section className="new-card-form__container">
-            <h2>Create a New Card</h2>
-            <NewCardForm addCardCallback={handleCardSubmit} />
-          </section>
-        </section>
-      )}
+        <footer className="footer">
+          <p onClick={handleDeleteAll}>Click here to delete all boards and cards!</p>
+        </footer>
       </div>
     </div>
-  </div>
-);
-
+  );
 };
 
 export default App;
