@@ -148,7 +148,12 @@ const App = () => {
       });
   };
 
-
+  const sortedByLikes =()=> {
+    const sortedCards= cardsData.sort((a, b) => a.likesCount - b.likesCount);
+    console.log(sortedCards);
+    setCardsData(sortedCards);
+  }
+   
   return (
     <div className='content_container'>
       <div id="root">
@@ -178,6 +183,7 @@ const App = () => {
             <section className="cards__container">
               <section>
                 <h2>Cards For {selectedBoard.title}</h2>
+                <button onClick={sortedByLikes}>Sort by Likes</button>
                 <CardList
                   cards={cardsData}
                   onLikeCardClick={handleLikeCardClick}
