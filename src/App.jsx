@@ -89,16 +89,14 @@ const App = () => {
     } else {
       setCardsData([]); 
     }
-  }, [selectedBoard]);
+  }, [selectedBoard, cardsData]);
   
-
   const onBoardClick = (id) => {
     const clickedBoard = boardsData.find((board) => board.id === id);
     setSelectedBoard(clickedBoard);
   };
 
 //   const [isBoardFormVisible, setIsBoardFormVisible] = useState(true);
-
 
   const handleBoardSubmit = (newBoard) => {
     return axios.post(`${kbaseURL}/boards`, newBoard)
@@ -110,19 +108,27 @@ const App = () => {
       });
   };
 
+  const handleCardSubmit = (newCard) => {
+    return axios.post(`${kbaseURL}/boards/${selectedBoard.id}/cards`, newCard)
+      .then((response) => {
+        setCardsData((prevCards)=>[...prevCards, convertFromCardApi(response.data)]);
+      })
+      .catch((error) => {
+        console.error('Error creating card', error);
+      });
+  };
 
 // const addBoard = (newBoard) => {
 //   const newBoardWithId = { ...newBoard, id: boardsData.length + 1 };
 //   setBoardsData([...boardsData, newBoardWithId]);
 // };
 
-  const addCard = (newCard) => {
-    if (selectedBoard) {
-      const newCardWithId = { ...newCard, id: cardsData.length + 1, boardId: selectedBoard.id };
-      setCardsData([...cardsData, newCardWithId]);
-    }
-  };
-
+  // const addCard = (newCard) => {
+  //   if (selectedBoard) {
+  //     const newCardWithId = { ...newCard, id: cardsData.length + 1, boardId: selectedBoard.id };
+  //     setCardsData([...cardsData, newCardWithId]);
+  //   }
+  // };
 
   const handleLikeCardClick = (id) => {
     // Handle like card click if needed
@@ -163,7 +169,7 @@ const App = () => {
           </section>
           <section className="new-card-form__container">
             <h2>Create a New Card</h2>
-            <NewCardForm addCardCallback={addCard} />
+            <NewCardForm addCardCallback={handleCardSubmit} />
           </section>
         </section>
       )}
