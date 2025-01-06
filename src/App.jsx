@@ -135,7 +135,11 @@ const App = () => {
   };
 
   const handleDeleteCard = (id) => {
-    setCardsData(cardsData.filter(card => card.id !== id));
+    deleteCardApi(id)
+      .then(() => {
+        setCardsData((cardsData)=>cardsData.filter((card) => card.id !== id));
+        return cardsData;
+      });
   };
 
   return (
