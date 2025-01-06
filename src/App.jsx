@@ -8,7 +8,7 @@ import NewCardForm from './components/NewCardForm'
 import CardList from './components/CardList';
 import axios from 'axios';
 
-const kbaseURL = 'http://localhost:5000';
+const kbaseURL = 'http://127.0.0.1:5000';
 
 const getAllBoardsApi = () => {
   return axios.get(`${kbaseURL}/boards`)
@@ -64,14 +64,14 @@ const App = () => {
   const [boardsData, setBoardsData] = useState([]);
   const [selectedBoard, setSelectedBoard] = useState(null);
   const [cardsData, setCardsData] = useState([]);
-  
+
   const getAllBoards =() => {
     getAllBoardsApi()
     .then((data) => {
       setBoardsData(data['boards'].map(convertFromBoardApi));
     });
   };
-  
+
   const getCardsForSelectedBoard = () => {
     getAllCardsApi(selectedBoard.id)
       .then((data) => {
@@ -79,18 +79,18 @@ const App = () => {
       });
   };
 
-  useEffect(() => { 
-    getAllBoards(); 
+  useEffect(() => {
+    getAllBoards();
   }, [boardsData]);
 
   useEffect(() => {
     if (selectedBoard?.id) {
       getCardsForSelectedBoard();
     } else {
-      setCardsData([]); 
+      setCardsData([]);
     }
   }, [selectedBoard, cardsData]);
-  
+
   const onBoardClick = (id) => {
     const clickedBoard = boardsData.find((board) => board.id === id);
     setSelectedBoard(clickedBoard);
