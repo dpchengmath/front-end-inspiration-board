@@ -99,8 +99,8 @@ const App = () => {
 
   const handleBoardSubmit = (newBoard) => {
     return axios.post(`${kbaseURL}/boards`, newBoard)
-      .then((response) => {
-        setBoardsData((prevBoards)=>[...prevBoards, convertFromBoardApi(response.data)]);
+      .then(() => {
+        getAllBoards();
       })
       .catch((error) => {
         console.error('Error creating board', error);
@@ -117,35 +117,27 @@ const App = () => {
       });
   };
 
-// const addBoard = (newBoard) => {
-//   const newBoardWithId = { ...newBoard, id: boardsData.length + 1 };
-//   setBoardsData([...boardsData, newBoardWithId]);
-// };
-
-//   const addCard = (newCard) => {
-//     if (selectedBoard) {
-//       const newCardWithId = { ...newCard, id: cardsData.length + 1, boardId: selectedBoard.id };
-//       setCardsData([...cardsData, newCardWithId]);
-//     }
-//   };
-
-const handleLikeCardClick = (id) => {
-  console.log(id);
-  return axios.put(`${kbaseURL}/cards/${id}/liked`)
-  
-    .then((response) => {
-      const updatedCard = convertFromCardApi(response.data);
-      setCardsData((prevCards) => prevCards.map(card => card.id === id ? updatedCard : card));
-    })
-    .catch((error) => {
-      console.error('Error liking card', error);
-    });
-};
-
+  const handleLikeCardClick = (id) => {
+    console.log(id);
+    return axios.put(`${kbaseURL}/cards/${id}/liked`)
+    
+      .then((response) => {
+        const updatedCard = convertFromCardApi(response.data);
+        setCardsData((prevCards) => prevCards.map(card => card.id === id ? updatedCard : card));
+      })
+      .catch((error) => {
+        console.error('Error liking card', error);
+      });
+  };
 
   const handleDeleteCard = (id) => {
-    setCardsData(cardsData.filter(card => card.id !== id));
-  };
+    deleteCardApi(id)
+      .then(() => {
+        setCardsData(cardsData.filter(card => card.id !== id));
+        return cardsData;
+  });
+};
+
   const handleDeleteAll = () => {
     return axios.delete(`${kbaseURL}/boards`)
       .then(() => {
