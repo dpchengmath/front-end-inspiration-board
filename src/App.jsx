@@ -95,8 +95,6 @@ const App = () => {
     setSelectedBoard(clickedBoard);
   };
 
-//   const [isBoardFormVisible, setIsBoardFormVisible] = useState(true);
-
   const handleBoardSubmit = (newBoard) => {
     return axios.post(`${kbaseURL}/boards`, newBoard)
       .then(() => {
@@ -118,17 +116,19 @@ const App = () => {
   };
 
   const handleLikeCardClick = (id) => {
-    console.log(id);
     return axios.put(`${kbaseURL}/cards/${id}/liked`)
     
       .then((response) => {
         const updatedCard = convertFromCardApi(response.data);
-        setCardsData((prevCards) => prevCards.map(card => card.id === id ? updatedCard : card));
+        setCardsData(
+          (prevCards) => prevCards.map((card) => 
+            card.id === id
+            ? {...card, likesCount: updatedCard.likesCount}
+            : card
+          )
+        );
       })
-      .catch((error) => {
-        console.error('Error liking card', error);
-      });
-  };
+    };
 
   const handleDeleteCard = (id) => {
     deleteCardApi(id)
