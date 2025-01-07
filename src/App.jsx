@@ -117,11 +117,11 @@ const App = () => {
 
   const handleLikeCardClick = (id) => {
     return axios.put(`${kbaseURL}/cards/${id}/liked`)
-    
+
       .then((response) => {
         const updatedCard = convertFromCardApi(response.data);
         setCardsData(
-          (prevCards) => prevCards.map((card) => 
+          (prevCards) => prevCards.map((card) =>
             card.id === id
             ? {...card, likesCount: updatedCard.likesCount}
             : card
@@ -155,7 +155,7 @@ const App = () => {
     console.log(sortedCards);
     setCardsData(sortedCards);
   }
-   
+
   return (
     <div className='page_container'>
       <div className="content__container">
@@ -164,11 +164,7 @@ const App = () => {
           <section>
             <h2>Boards</h2>
             <ol className='boards__list'>
-              {boardsData.map(board => (
-                <li key={board.id} onClick={() => onBoardClick(board.id)}>
-                  {board.title}
-                </li>
-              ))}
+            <Board boards = {boardsData} onBoardClick={onBoardClick}/>
             </ol>
           </section>
           <section>
@@ -199,7 +195,7 @@ const App = () => {
             </section>
           </section>
         )}
-      
+
         <footer className="footer">
           <p onClick={handleDeleteAll}>Click here to delete all boards and cards!</p>
         </footer>
