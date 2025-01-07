@@ -130,7 +130,9 @@ const App = () => {
 //   };
 
 const handleLikeCardClick = (id) => {
+  console.log(id);
   return axios.put(`${kbaseURL}/cards/${id}/liked`)
+  
     .then((response) => {
       const updatedCard = convertFromCardApi(response.data);
       setCardsData((prevCards) => prevCards.map(card => card.id === id ? updatedCard : card));
@@ -163,8 +165,8 @@ const handleLikeCardClick = (id) => {
   }
    
   return (
-    <div className='content_container'>
-      <div id="root">
+    <div className='page_container'>
+      <div className="content__container">
         <h1>Inspiration Board</h1>
         <section className='boards__container'>
           <section>
@@ -187,24 +189,25 @@ const handleLikeCardClick = (id) => {
             <h2>Create a New Board</h2>
             <NewBoardForm addBoardCallback={handleBoardSubmit} />
           </section>
-          {selectedBoard && (
-            <section className="cards__container">
-              <section>
-                <h2>Cards For {selectedBoard.title}</h2>
-                <button onClick={sortedByLikes}>Sort by Likes</button>
-                <CardList
-                  cards={cardsData}
-                  onLikeCardClick={handleLikeCardClick}
-                  onDeleteCard={handleDeleteCard}
-                />
-              </section>
-              <section className="new-card-form__container">
-                <h2>Create a New Card</h2>
-                <NewCardForm addCardCallback={handleCardSubmit} />
-              </section>
-            </section>
-          )}
         </section>
+        {selectedBoard && (
+          <section className="cards__container">
+            <section>
+              <h2>Cards For {selectedBoard.title}</h2>
+              <button onClick={sortedByLikes}>Sort by Likes</button>
+              <CardList
+                cards={cardsData}
+                onLikeCardClick={handleLikeCardClick}
+                onDeleteCard={handleDeleteCard}
+              />
+            </section>
+            <section className="new-card-form__container">
+              <h2>Create a New Card</h2>
+              <NewCardForm addCardCallback={handleCardSubmit} />
+            </section>
+          </section>
+        )}
+      
         <footer className="footer">
           <p onClick={handleDeleteAll}>Click here to delete all boards and cards!</p>
         </footer>
