@@ -8,6 +8,13 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
+    <script>
+      const redirectToIndex = () => {
+        if (!location.pathname.includes('.')) {
+          location.href = '/https://github.com/dpchengmath/front-end-inspiration-board' + location.pathname + location.search;
+        }
+      };
+      redirectToIndex();
+    </script>
   </body>
 </html>
-
