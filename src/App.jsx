@@ -163,9 +163,7 @@ const App = () => {
         <section className='boards__container'>
           <section>
             <h2>Boards</h2>
-            <ol className='boards__list'>
             <Board boards = {boardsData} onBoardClick={onBoardClick}/>
-            </ol>
           </section>
           <section>
             <h2>Selected Board</h2>
