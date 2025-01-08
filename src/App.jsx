@@ -7,7 +7,7 @@ import NewCardForm from './components/NewCardForm'
 import CardList from './components/CardList';
 import axios from 'axios';
 
-const kbaseURL = 'http://127.0.0.1:5000';
+const kbaseURL = 'https://back-end-inspiration-board-agf6.onrender.com/';
 
 const getAllBoardsApi = () => {
   return axios.get(`${kbaseURL}/boards`)
