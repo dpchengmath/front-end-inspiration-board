@@ -139,7 +139,7 @@ const App = () => {
 };
 
   const handleDeleteAll = () => {
-    return axios.delete(`${kbaseURL}/boards`)
+    return axios.delete(`${kbaseURL}`)
       .then(() => {
         setBoardsData([]);
         setCardsData([]);
