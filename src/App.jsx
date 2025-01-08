@@ -108,7 +108,7 @@ const App = () => {
   const handleCardSubmit = (newCard) => {
     return axios.post(`${kbaseURL}/boards/${selectedBoard.id}/cards`, newCard)
       .then((response) => {
-        setCardsData((prevCards)=>[...prevCards, convertFromCardApi(response.data)]);
+        getCardsForSelectedBoard();
       })
       .catch((error) => {
         console.error('Error creating card', error);
