@@ -117,19 +117,16 @@ const App = () => {
 
   const handleLikeCardClick = (id) => {
     return axios.put(`${kbaseURL}/cards/${id}/liked`)
-      .then(()=> {
-        return axios.get(`${kbaseURL}/boards/${selectedBoard.id}/cards`);
-      })
       .then((response) => {
-        // const updatedCard = convertFromCardApi(response.data);
-        // setCardsData(
-        //   (prevCards) => prevCards.map((card) =>
-        //     card.id === id
-        //     ? {...card, likesCount: updatedCard.likesCount}
-        //     : card
-        //   )
-        // );
-        setCardsData(response.data["cards"].map(convertFromCardApi));
+        console.log(response.data);
+        const updatedCard = convertFromCardApi(response.data);
+        setCardsData(
+          (prevCards) => prevCards.map((card) =>
+            card.id === id
+            ? {...card, likesCount: updatedCard.likesCount}
+            : card
+          )
+        );
       })
     };
 
