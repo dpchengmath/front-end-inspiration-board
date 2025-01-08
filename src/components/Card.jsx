@@ -2,13 +2,11 @@ import PropTypes from 'prop-types';
 import { useState } from 'react';
 import './Card.css';
 
-const Card = ({id, message, onLikeCardClick, onDeleteCard}) => {
-  const [likesCount, setLikesCount] = useState(0);
+const Card = ({id, message, likesCount, onLikeCardClick, onDeleteCard}) => {
+
   const handleLikeClick = () => {
-    setLikesCount(likesCount + 1);
-    if (onLikeCardClick) {
       onLikeCardClick(id);
-    }
+
   };
 
   const deleteCardClick = () => {
@@ -39,6 +37,7 @@ const Card = ({id, message, onLikeCardClick, onDeleteCard}) => {
 Card.propTypes = {
   id: PropTypes.number,
   message: PropTypes.string,
+  likesCount: PropTypes.number,
   onLikeCardClick: PropTypes.func.isRequired,
   onDeleteCard: PropTypes.func.isRequired,
 };

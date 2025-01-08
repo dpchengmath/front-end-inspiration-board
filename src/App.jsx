@@ -43,11 +43,11 @@ const convertFromCardApi = (card) => {
     ...card,
     id: card.card_id,
     likesCount: card.likes_count,
-    boardId: card.board_id,
+    // boardId: card.board_id,
   };
   delete newCard.card_id;
   delete newCard.likes_count;
-  delete newCard.board_id;
+  // delete newCard.board_id;
   return newCard;
 };
 
@@ -117,16 +117,19 @@ const App = () => {
 
   const handleLikeCardClick = (id) => {
     return axios.put(`${kbaseURL}/cards/${id}/liked`)
-
+      .then(()=> {
+        return axios.get(`${kbaseURL}/boards/${selectedBoard.id}/cards`);
+      })
       .then((response) => {
-        const updatedCard = convertFromCardApi(response.data);
-        setCardsData(
-          (prevCards) => prevCards.map((card) =>
-            card.id === id
-            ? {...card, likesCount: updatedCard.likesCount}
-            : card
-          )
-        );
+        // const updatedCard = convertFromCardApi(response.data);
+        // setCardsData(
+        //   (prevCards) => prevCards.map((card) =>
+        //     card.id === id
+        //     ? {...card, likesCount: updatedCard.likesCount}
+        //     : card
+        //   )
+        // );
+        setCardsData(response.data["cards"].map(convertFromCardApi));
       })
     };
 
