@@ -7,7 +7,7 @@ import NewCardForm from './components/NewCardForm'
 import CardList from './components/CardList';
 import axios from 'axios';
 
-const kbaseURL = 'https://back-end-inspiration-board-agf6.onrender.com';
+const kbaseURL = 'https://back-end-inspiration-board-agf6.onrender.com/'
 
 const getAllBoardsApi = () => {
   return axios.get(`${kbaseURL}/boards`)
@@ -43,11 +43,11 @@ const convertFromCardApi = (card) => {
     ...card,
     id: card.card_id,
     likesCount: card.likes_count,
-    boardId: card.board_id,
+    // boardId: card.board_id,
   };
   delete newCard.card_id;
   delete newCard.likes_count;
-  delete newCard.board_id;
+  // delete newCard.board_id;
   return newCard;
 };
 
@@ -108,7 +108,7 @@ const App = () => {
   const handleCardSubmit = (newCard) => {
     return axios.post(`${kbaseURL}/boards/${selectedBoard.id}/cards`, newCard)
       .then((response) => {
-        setCardsData((prevCards)=>[...prevCards, convertFromCardApi(response.data)]);
+        getCardsForSelectedBoard();
       })
       .catch((error) => {
         console.error('Error creating card', error);
@@ -117,9 +117,9 @@ const App = () => {
 
   const handleLikeCardClick = (id) => {
     return axios.put(`${kbaseURL}/cards/${id}/liked`)
-
       .then((response) => {
-        const updatedCard = convertFromCardApi(response.data);
+        console.log(response.data);
+        const updatedCard = convertFromCardApi(response.data["card"]);
         setCardsData(
           (prevCards) => prevCards.map((card) =>
             card.id === id
@@ -139,7 +139,7 @@ const App = () => {
 };
 
   const handleDeleteAll = () => {
-    return axios.delete(`${kbaseURL}`)
+    return axios.delete(`${kbaseURL}/boards`)
       .then(() => {
         setBoardsData([]);
         setCardsData([]);
@@ -151,7 +151,7 @@ const App = () => {
   };
 
   const sortedByLikes =()=> {
-    const sortedCards= cardsData.sort((a, b) => a.likesCount - b.likesCount);
+    const sortedCards = [...cardsData].sort((b, a) => a.likesCount - b.likesCount);
     console.log(sortedCards);
     setCardsData(sortedCards);
   }
@@ -163,9 +163,7 @@ const App = () => {
         <section className='boards__container'>
           <section>
             <h2>Boards</h2>
-            <ol className='boards__list'>
             <Board boards = {boardsData} onBoardClick={onBoardClick}/>
-            </ol>
           </section>
           <section>
             <h2>Selected Board</h2>
