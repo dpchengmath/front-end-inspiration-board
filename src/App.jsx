@@ -119,7 +119,7 @@ const App = () => {
     return axios.put(`${kbaseURL}/cards/${id}/liked`)
       .then((response) => {
         console.log(response.data);
-        const updatedCard = convertFromCardApi(response.data);
+        const updatedCard = convertFromCardApi(response.data["card"]);
         setCardsData(
           (prevCards) => prevCards.map((card) =>
             card.id === id
