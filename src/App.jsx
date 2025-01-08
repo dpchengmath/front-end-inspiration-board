@@ -154,7 +154,7 @@ const App = () => {
   };
 
   const sortedByLikes =()=> {
-    const sortedCards= cardsData.sort((a, b) => a.likesCount - b.likesCount);
+    const sortedCards = [...cardsData].sort((b, a) => a.likesCount - b.likesCount);
     console.log(sortedCards);
     setCardsData(sortedCards);
   }
